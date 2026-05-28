@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xRoy1x | Official</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800;900&family=JetBrains+Mono:wght@400&family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text-main: #000000;
+            --text-sub: #999999;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .bg-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                linear-gradient(120deg, rgba(0,0,0,0.015) 30%, transparent 30%),
+                linear-gradient(120deg, transparent 60%, rgba(0,0,0,0.01) 60%);
+        }
+
+        header {
+            position: fixed; top: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 40px 60px; box-sizing: border-box;
+            z-index: 100;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+        }
+        .brand { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.05em; }
+        nav { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.4em; }
+        nav a { margin-left: 30px; text-decoration: none; color: var(--text-main); text-transform: uppercase; opacity: 0.4; transition: 0.3s; }
+        nav a:hover { opacity: 1; }
+
+        .hero {
+            height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
+        }
+
+        .hero-name {
+            font-size: 10vw;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            margin: 0;
+            line-height: 0.85;
+            text-transform: capitalize;
+        }
+
+        .hero-sub {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            letter-spacing: 0.6em;
+            color: var(--text-sub);
+            margin-top: 30px;
+            text-transform: uppercase;
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        section { padding: 80px 60px; max-width: 1400px; margin: 0 auto; }
+        
+        .section-header { border-top: 2px solid #000; padding-top: 15px; margin-bottom: 60px; }
+        .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; letter-spacing: 0.3em; color: #bbb; }
+
+        .profile-container {
+            display: flex;
+            gap: 80px;
+            align-items: flex-start;
+        }
+        .profile-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px 60px;
+        }
+        .profile-icon-wrapper {
+            flex-shrink: 0;
+        }
+        .profile-icon {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 1px solid #f0f0f0;
+            background-color: #f9f9f9;
+        }
+
+        .profile-item {
+            padding: 25px 0;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        .profile-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #ccc;
+            letter-spacing: 0.2em;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .profile-value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+        }
+        .jp-name {
+            font-size: 1.8rem;
+            margin-left: 10px;
+            color: #444;
+            font-weight: 900;
+        }
+
+        .link-grid { display: flex; flex-direction: column; }
+        .link-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 50px 0; border-bottom: 1px solid #f2f2f2;
+            text-decoration: none; color: var(--text-main);
+            transition: 0.4s ease;
+        }
+        .link-item:hover { opacity: 0.4; transform: translateX(20px); }
+        .link-item h3 { font-size: 4rem; font-weight: 900; margin: 0; letter-spacing: -0.04em; }
+        .link-item span { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: #ccc; }
+
+        .contact-box { display: flex; flex-direction: column; align-items: flex-start; }
+        .contact-title { font-size: 3.5rem; font-weight: 900; letter-spacing: -0.05em; margin: 0; line-height: 1; }
+        .contact-desc { font-family: 'Noto Sans JP', sans-serif; font-weight: 700; color: #444; margin: 15px 0 25px 0; font-size: 1rem; letter-spacing: 0.05em; }
+        .contact-link { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--text-main); text-decoration: none; border-bottom: 2px solid var(--text-main); padding-bottom: 5px; transition: 0.3s; }
+        .contact-link:hover { opacity: 0.5; padding-left: 10px; }
+
+        footer { padding: 80px 60px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #ddd; letter-spacing: 0.3em; }
+
+        @media (max-width: 1024px) {
+            .profile-container { flex-direction: column-reverse; align-items: center; gap: 40px; }
+            .profile-icon { width: 200px; height: 200px; border-radius: 50%; }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 30px; }
+            nav { display: none; }
+            .hero-name { font-size: 18vw; }
+            .profile-grid { grid-template-columns: 1fr; width: 100%; }
+            .profile-value { font-size: 1.8rem; }
+            .jp-name { font-size: 1.4rem; }
+            .link-item h3 { font-size: 2.2rem; }
+            footer { flex-direction: column; gap: 20px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-layer"></div>
+
+    <header>
+        <div class="brand">xRoy1x.</div>
+        <nav>
+            <a href="#profile">Profile</a>
+            <a href="#channels">Channels</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1 class="hero-name">xRoy1x Official</h1>
+        <p class="hero-sub">Competitive Player & Creator</p>
+    </div>
+
+    <!-- 01 PROFILE -->
+    <section id="profile" class="reveal">
+        <div class="section-header">
+            <span class="section-label">01 — IDENTITY</span>
+        </div>
+        <div class="profile-container">
+            <div class="profile-grid">
+                <div class="profile-item">
+                    <span class="profile-label">NAME</span>
+                    <span class="profile-value">xRoy1x<span class="jp-name">(ろい)</span></span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">AGE</span>
+                    <span class="profile-value">20</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">MAIN GAME</span>
+                    <span class="profile-value">VALORANT</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">LOCATION</span>
+                    <span class="profile-value">FUKUOKA</span>
+                </div>
+            </div>
+            <div class="profile-icon-wrapper">
+                <img src="icon.jpg" alt="xRoy1x Icon" class="profile-icon">
+            </div>
+        </div>
+    </section>
+
+    <!-- 02 CHANNELS -->
+    <section id="channels" class="reveal">
+        <div class="section-header">
+            <span class="section-label">02 — DIGITAL ARCHIVE</span>
+        </div>
+        <div class="link-grid">
+            <a href="https://www.twitch.tv/xroy1x_vl" target="_blank" class="link-item">
+                <h3>Twitch</h3>
+                <span>STREAM</span>
+            </a>
+            <a href="https://www.youtube.com/@xRoy1xfps" target="_blank" class="link-item">
+                <h3>YouTube</h3>
+                <span>MOVIES</span>
+            </a>
+            <a href="https://www.tiktok.com/@xroy1xfps" target="_blank" class="link-item">
+                <h3>TikTok</h3>
+                <span>CLIPS</span>
+            </a>
+            <a href="https://x.com/xroy1xfps" target="_blank" class="link-item">
+                <h3>X</h3>
+                <span>SOCIAL</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 03 CONTACT -->
+    <section id="contact" class="reveal" style="padding-bottom: 120px;">
+        <div class="section-header">
+            <span class="section-label">03 — INQUIRIES</span>
+        </div>
+        <div class="contact-box">
+            <h2 class="contact-title">CONTACT.</h2>
+            <p class="contact-desc">お仕事の依頼・案件はこちらまで</p>
+            <a href="https://x.com/xroy1xfps" target="_blank" class="contact-link">Send DM via X →</a>
+        </div>
+    </section>
+
+    <footer>
+        <div>&copy; 2026 XROY1X OFFICIAL.</div>
+        <div>STAY SHARP.</div>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>
